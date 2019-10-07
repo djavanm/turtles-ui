@@ -9,7 +9,6 @@ function App() {
     fetch(process.env.REACT_APP_BACKEND_URL + '/api/v1/turtles')
       .then(response => response.json())
       .then(data => {
-        console.log(data)
         setTurtles(data)
         setLoading(false)
       })
