@@ -1,24 +1,33 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect }from 'react';
 import './App.css';
 
 function App() {
+  const [ turtles, setTurtles ] = useState([]);
+  const [ loading, setLoading ] = useState(true);
+  let turtleStuff = undefined;
+  useEffect(() => {
+    fetch(process.env.REACT_APP_BACKEND_URL + '/api/v1/turtles')
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setTurtles(data)
+        setLoading(false)
+      })
+  }, [])
+
+  if(turtles.length) {
+    turtleStuff = turtles.map(turtle => (
+        <div key={turtle.id}>
+        <h2>{turtle.name}</h2>
+        <p>{turtle.type}</p>
+        </div>
+      ) 
+    );
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      { loading && <h1>Loading...</h1> }
+      { turtles.length && turtleStuff }
     </div>
   );
 }
