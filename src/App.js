@@ -22,7 +22,7 @@ function App() {
         </div>
       ) 
     );
-  }
+  };
   return (
     <div className="App">
       { loading && <h1>Loading...</h1> }
